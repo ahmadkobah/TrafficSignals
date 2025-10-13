@@ -1,0 +1,44 @@
+{
+  "model_settings": {
+    "input_size": [224, 224],
+    "batch_size": 32,
+    "epochs": 30,
+    "learning_rate": 0.001,
+    "dropout_rate": 0.5,
+    "validation_split": 0.2
+  },
+  "data_augmentation": {
+    "rotation_range": 30,
+    "width_shift_range": 0.3,
+    "height_shift_range": 0.3,
+    "shear_range": 0.3,
+    "zoom_range": 0.3,
+    "horizontal_flip": true,
+    "brightness_range": [0.8, 1.2]
+  },
+  "callbacks": {
+    "early_stopping_patience": 5,
+    "reduce_lr_patience": 3,
+    "reduce_lr_factor": 0.2,
+    "min_lr": 1e-7
+  },
+  "paths": {
+    "model_save_path": "models/",
+    "logs_path": "logs/",
+    "results_path": "results/"
+  },
+  "prediction": {
+    "confidence_threshold": 0.7,
+    "top_k_predictions": 5
+  },
+  "class_labels": [
+    "stop",
+    "yield",
+    "speed_limit",
+    "no_entry",
+    "warning",
+    "information",
+    "mandatory",
+    "prohibition"
+  ]
+}
