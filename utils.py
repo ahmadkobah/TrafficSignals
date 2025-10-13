@@ -45,7 +45,7 @@ class ImageProcessor:
                 return img
                 
         except Exception as e:
-            print(f"❌ Error enhancing image: {e}")
+            print(f" Error enhancing image: {e}")
             return None
     
     @staticmethod
@@ -75,7 +75,7 @@ class ImageProcessor:
             return img
             
         except Exception as e:
-            print(f"❌ Error in OpenCV preprocessing: {e}")
+            print(f" Error in OpenCV preprocessing: {e}")
             return None
     
     @staticmethod
@@ -112,7 +112,7 @@ class ModelEvaluator:
     @staticmethod
     def evaluate_model_comprehensive(model, test_generator, class_labels):
         """Comprehensive model evaluation"""
-        print("🔍 Starting Comprehensive Model Evaluation...")
+        print(" Starting Comprehensive Model Evaluation...")
         
         # Get predictions
         predictions = model.predict(test_generator, verbose=1)
@@ -122,7 +122,7 @@ class ModelEvaluator:
         y_true = test_generator.classes
         
         # Classification report
-        print("\n📊 Classification Report:")
+        print("\nClassification Report:")
         print("=" * 60)
         report = classification_report(y_true, y_pred, 
                                      target_names=class_labels, 
@@ -187,7 +187,7 @@ class ModelEvaluator:
     @staticmethod
     def analyze_per_class_performance(report, class_labels):
         """Analyze performance for each class"""
-        print("\n🎯 Per-Class Performance Analysis:")
+        print("\n Per-Class Performance Analysis:")
         print("=" * 50)
         
         metrics_df = []
@@ -252,7 +252,7 @@ class ModelEvaluator:
     @staticmethod
     def analyze_prediction_confidence(predictions, y_true, y_pred, class_labels):
         """Analyze prediction confidence distribution"""
-        print("\n🎲 Prediction Confidence Analysis:")
+        print("\nPrediction Confidence Analysis:")
         print("=" * 40)
         
         # Get confidence scores
@@ -337,7 +337,7 @@ class DatasetAnalyzer:
     @staticmethod
     def analyze_dataset(dataset_path):
         """Analyze dataset structure and distribution"""
-        print("📊 Dataset Analysis")
+        print(" Dataset Analysis")
         print("=" * 30)
         
         class_counts = {}
@@ -386,18 +386,18 @@ class DatasetAnalyzer:
             min_count = min(counts)
             imbalance_ratio = max_count / min_count
             
-            print(f"\n⚖️ Dataset Balance Analysis:")
+            print(f"\n Dataset Balance Analysis:")
             print(f"   Imbalance Ratio: {imbalance_ratio:.2f}")
             
             if imbalance_ratio > 3:
-                print("   ⚠️  Dataset is imbalanced! Consider:")
+                print("     Dataset is imbalanced! Consider:")
                 print("      • Data augmentation for minority classes")
                 print("      • Class weights in training")
                 print("      • Oversampling techniques")
             elif imbalance_ratio > 1.5:
-                print("   🟡 Moderate imbalance detected")
+                print("    Moderate imbalance detected")
             else:
-                print("   ✅ Dataset is well balanced")
+                print("    Dataset is well balanced")
         
         return class_counts
 
@@ -406,17 +406,17 @@ def save_results(results, filename="prediction_results.json"):
     try:
         with open(filename, 'w') as f:
             json.dump(results, f, indent=2, default=str)
-        print(f"✅ Results saved to {filename}")
+        print(f" Results saved to {filename}")
     except Exception as e:
-        print(f"❌ Error saving results: {e}")
+        print(f" Error saving results: {e}")
 
 def load_config(config_path="config.json"):
     """Load configuration from JSON file"""
     try:
         with open(config_path, 'r') as f:
             config = json.load(f)
-        print(f"✅ Configuration loaded from {config_path}")
+        print(f" Configuration loaded from {config_path}")
         return config
     except Exception as e:
-        print(f"❌ Error loading config: {e}")
+        print(f" Error loading config: {e}")
         return None
