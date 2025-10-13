@@ -32,13 +32,12 @@
     "top_k_predictions": 5
   },
   "class_labels": [
-    "stop",
-    "yield",
-    "speed_limit",
-    "no_entry",
-    "warning",
-    "information",
-    "mandatory",
-    "prohibition"
+    "30zone",
+    "40zone",
+    "50zone",
+    "80zone",
+    "crosswalk",
+    "nocarallowed",
+    "Stopsign"
   ]
 }
