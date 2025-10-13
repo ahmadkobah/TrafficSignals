@@ -1,16 +1,33 @@
+
 """
-Utility functions for the Traffic Signal Classifier
+Utility functions for the Enhanced Traffic Signal Classifier
+Includes image processing, model evaluation, and dataset analysis tools
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.metrics import classification_report, confusion_matrix
-import tensorflow as tf
-import cv2
 import os
-from PIL import Image, ImageEnhance, ImageFilter
 import json
+
+# Core libraries
+try:
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from sklearn.metrics import classification_report, confusion_matrix
+    import tensorflow as tf
+    from PIL import Image, ImageEnhance, ImageFilter
+    IMPORTS_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: Some imports failed: {e}")
+    print("Some features may not be available. Install missing packages.")
+    IMPORTS_AVAILABLE = False
+
+# OpenCV (optional)
+try:
+    import cv2
+    CV2_AVAILABLE = True
+except ImportError:
+    print("Warning: OpenCV not available. Some image processing features disabled.")
+    CV2_AVAILABLE = False
 
 class ImageProcessor:
     """Enhanced image processing utilities"""
@@ -45,12 +62,16 @@ class ImageProcessor:
                 return img
                 
         except Exception as e:
-            print(f" Error enhancing image: {e}")
+            print(f"Error enhancing image: {e}")
             return None
     
     @staticmethod
     def preprocess_opencv(image_path, target_size=(224, 224)):
         """Advanced preprocessing with OpenCV"""
+        if not CV2_AVAILABLE:
+            print("OpenCV not available. Using basic preprocessing instead.")
+            return None
+            
         try:
             # Read image
             img = cv2.imread(image_path)
@@ -75,7 +96,7 @@ class ImageProcessor:
             return img
             
         except Exception as e:
-            print(f" Error in OpenCV preprocessing: {e}")
+            print(f"Error in OpenCV preprocessing: {e}")
             return None
     
     @staticmethod
@@ -208,20 +229,24 @@ class ModelEvaluator:
                 
                 # Performance interpretation
                 if f1 >= 0.9:
-                    performance = "🟢 Excellent"
+                    performance = "Excellent"
                 elif f1 >= 0.8:
-                    performance = "🟡 Good"
+                    performance = "Good"
                 elif f1 >= 0.7:
-                    performance = "🟠 Fair"
+                    performance = "Fair"
                 else:
-                    performance = "🔴 Poor"
+                    performance = "Poor"
                 
                 print(f"{label.upper():15} | F1: {f1:.3f} | {performance}")
         
         # Plot metrics
         if metrics_df:
-            import pandas as pd
-            df = pd.DataFrame(metrics_df)
+            try:
+                import pandas as pd
+                df = pd.DataFrame(metrics_df)
+            except ImportError:
+                print("Pandas not available. Skipping detailed metrics plots.")
+                return
             
             fig, axes = plt.subplots(1, 3, figsize=(18, 6))
             
@@ -390,14 +415,14 @@ class DatasetAnalyzer:
             print(f"   Imbalance Ratio: {imbalance_ratio:.2f}")
             
             if imbalance_ratio > 3:
-                print("     Dataset is imbalanced! Consider:")
-                print("      • Data augmentation for minority classes")
-                print("      • Class weights in training")
-                print("      • Oversampling techniques")
+                print("   Dataset is imbalanced! Consider:")
+                print("      - Data augmentation for minority classes")
+                print("      - Class weights in training")
+                print("      - Oversampling techniques")
             elif imbalance_ratio > 1.5:
-                print("    Moderate imbalance detected")
+                print("   Moderate imbalance detected")
             else:
-                print("    Dataset is well balanced")
+                print("   Dataset is well balanced")
         
         return class_counts
 
@@ -406,17 +431,17 @@ def save_results(results, filename="prediction_results.json"):
     try:
         with open(filename, 'w') as f:
             json.dump(results, f, indent=2, default=str)
-        print(f" Results saved to {filename}")
+        print(f"Results saved to {filename}")
     except Exception as e:
-        print(f" Error saving results: {e}")
+        print(f"Error saving results: {e}")
 
 def load_config(config_path="config.json"):
     """Load configuration from JSON file"""
     try:
         with open(config_path, 'r') as f:
             config = json.load(f)
-        print(f" Configuration loaded from {config_path}")
+        print(f"Configuration loaded from {config_path}")
         return config
     except Exception as e:
-        print(f" Error loading config: {e}")
+        print(f"Error loading config: {e}")
         return None

@@ -139,7 +139,7 @@ class TrafficSignalClassifier:
     
     def train_model(self, train_path, validation_path, epochs=30, model_save_path='traffic_signal_model.h5'):
         """Train the enhanced model"""
-        print("🚀 Starting Enhanced Traffic Signal Training...")
+        print("Starting Enhanced Traffic Signal Training...")
         
         # Create data generators
         train_gen, val_gen = self.create_data_generators(train_path, validation_path)
@@ -148,12 +148,12 @@ class TrafficSignalClassifier:
         num_classes = len(train_gen.class_indices)
         self.class_labels = list(train_gen.class_indices.keys())
         
-        print(f"📊 Detected {num_classes} classes: {self.class_labels}")
+        print(f"Detected {num_classes} classes: {self.class_labels}")
         
         # Create enhanced model
         self.model = self.create_enhanced_model(num_classes)
         
-        print("🏗️ Model Architecture:")
+        print("Model Architecture:")
         self.model.summary()
         
         # Get callbacks
@@ -172,7 +172,7 @@ class TrafficSignalClassifier:
         
         # Evaluate final model
         val_loss, val_acc, val_top_k = self.model.evaluate(val_gen, verbose=0)
-        print(f"📈 Final Validation Results:")
+        print(f"Final Validation Results:")
         print(f"   Loss: {val_loss:.4f}")
         print(f"   Accuracy: {val_acc:.4f}")
         print(f"   Top-K Accuracy: {val_top_k:.4f}")
@@ -191,9 +191,9 @@ class TrafficSignalClassifier:
             with open(labels_path, 'r') as f:
                 self.class_labels = json.load(f)
         else:
-            print("⚠️ Warning: Class labels file not found!")
+            print("Warning: Class labels file not found!")
         
-        print(f"✅ Model loaded successfully!")
+        print(f"Model loaded successfully!")
         print(f"📋 Classes: {self.class_labels}")
     
     def preprocess_image(self, image_path):
@@ -211,13 +211,13 @@ class TrafficSignalClassifier:
             
             return img_array, img
         except Exception as e:
-            print(f"❌ Error preprocessing image: {e}")
+            print(f"Error preprocessing image: {e}")
             return None, None
     
     def predict_with_confidence(self, image_path, top_k=3):
         """Make prediction with confidence scores"""
         if self.model is None:
-            print("❌ No model loaded!")
+            print("No model loaded!")
             return None
         
         img_array, original_img = self.preprocess_image(image_path)
@@ -252,7 +252,7 @@ class TrafficSignalClassifier:
     def plot_training_history(self):
         """Plot training history"""
         if self.history is None:
-            print("❌ No training history available!")
+            print("No training history available!")
             return
         
         fig, axes = plt.subplots(2, 2, figsize=(15, 10))
@@ -302,7 +302,7 @@ class TrafficSignalGUI:
     def __init__(self):
         self.classifier = TrafficSignalClassifier()
         self.root = tk.Tk()
-        self.root.title("🚦 Traffic Signal Classifier")
+        self.root.title("Traffic Signal Classifier")
         self.root.geometry("800x600")
         self.setup_gui()
         
@@ -313,7 +313,7 @@ class TrafficSignalGUI:
         main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         
         # Title
-        title_label = ttk.Label(main_frame, text="🚦 Traffic Signal Classifier", 
+        title_label = ttk.Label(main_frame, text="Traffic Signal Classifier", 
                                font=("Arial", 20, "bold"))
         title_label.grid(row=0, column=0, columnspan=3, pady=10)
         
@@ -368,7 +368,7 @@ class TrafficSignalGUI:
             try:
                 self.classifier.load_model(model_path)
                 self.status_var.set(f"Model loaded: {os.path.basename(model_path)}")
-                self.log_message("✅ Model loaded successfully!")
+                self.log_message("Model loaded successfully!")
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to load model: {e}")
     
@@ -386,12 +386,12 @@ class TrafficSignalGUI:
         def train_thread():
             try:
                 self.status_var.set("Training in progress...")
-                self.log_message("🚀 Starting model training...")
+                self.log_message("Starting model training...")
                 
                 history = self.classifier.train_model(train_path, val_path, epochs=20)
                 
                 self.status_var.set("Training completed!")
-                self.log_message("✅ Training completed successfully!")
+                self.log_message("Training completed successfully!")
                 
                 # Show training plots
                 self.classifier.plot_training_history()
@@ -432,7 +432,7 @@ class TrafficSignalGUI:
             self.image_label.image = photo  # Keep a reference
             
         except Exception as e:
-            self.log_message(f"❌ Error displaying image: {e}")
+            self.log_message(f"Error displaying image: {e}")
     
     def predict_image(self):
         """Predict the selected image"""
@@ -454,7 +454,7 @@ class TrafficSignalGUI:
                 self.display_results(results)
                 self.status_var.set("Prediction completed")
             else:
-                self.log_message("❌ Prediction failed")
+                self.log_message("Prediction failed")
                 self.status_var.set("Prediction failed")
                 
         except Exception as e:
@@ -465,12 +465,12 @@ class TrafficSignalGUI:
         """Display prediction results"""
         self.results_text.delete(1.0, tk.END)
         
-        output = f"🎯 PREDICTION RESULTS\n"
+        output = f"PREDICTION RESULTS\n"
         output += f"{'='*50}\n"
-        output += f"📸 Image: {os.path.basename(results['image_path'])}\n"
-        output += f"🕒 Time: {results['timestamp']}\n\n"
+        output += f"Image: {os.path.basename(results['image_path'])}\n"
+        output += f"Time: {results['timestamp']}\n\n"
         
-        output += f"🏆 TOP PREDICTIONS:\n"
+        output += f"TOP PREDICTIONS:\n"
         output += f"{'-'*30}\n"
         
         for pred in results['predictions']:
@@ -482,29 +482,29 @@ class TrafficSignalGUI:
         # Add interpretation
         best_pred = results['predictions'][0]
         if best_pred['percentage'] > 80:
-            confidence_level = "🟢 Very High"
+            confidence_level = "Very High"
         elif best_pred['percentage'] > 60:
-            confidence_level = "🟡 High"
+            confidence_level = "High"
         elif best_pred['percentage'] > 40:
-            confidence_level = "🟠 Medium"
+            confidence_level = "Medium"
         else:
-            confidence_level = "🔴 Low"
+            confidence_level = "Low"
         
-        output += f"📊 ANALYSIS:\n"
+        output += f"ANALYSIS:\n"
         output += f"{'-'*20}\n"
         output += f"Predicted Signal: {best_pred['class'].upper()}\n"
         output += f"Confidence Level: {confidence_level}\n"
         output += f"Recommendation: "
         
         if best_pred['percentage'] > 70:
-            output += "✅ High confidence prediction\n"
+            output += "High confidence prediction\n"
         elif best_pred['percentage'] > 50:
-            output += "⚠️ Moderate confidence - verify manually\n"
+            output += "Moderate confidence - verify manually\n"
         else:
-            output += "❌ Low confidence - manual verification required\n"
+            output += "Low confidence - manual verification required\n"
         
         self.results_text.insert(tk.END, output)
-        self.log_message(f"🎯 Predicted: {best_pred['class']} ({best_pred['percentage']:.1f}% confidence)")
+        self.log_message(f"Predicted: {best_pred['class']} ({best_pred['percentage']:.1f}% confidence)")
     
     def log_message(self, message):
         """Add message to results area"""
@@ -522,7 +522,7 @@ class TrafficSignalGUI:
 
 def main():
     """Main function to choose between training or GUI"""
-    print("🚦 Enhanced Traffic Signal Classifier")
+    print("Enhanced Traffic Signal Classifier")
     print("=" * 40)
     print("Choose an option:")
     print("1. Train new model (command line)")
@@ -567,10 +567,10 @@ def main():
                     print(f"{pred['rank']}. {pred['class']}: {pred['percentage']:.2f}%")
             
         except Exception as e:
-            print(f"❌ Error: {e}")
-    
+            print(f"Error: {e}")
+        
     else:
-        print("❌ Invalid choice!")
+        print("Invalid choice!")
 
 if __name__ == "__main__":
     main()
