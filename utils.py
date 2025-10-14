@@ -7,7 +7,7 @@ Includes image processing, model evaluation, and dataset analysis tools
 import os
 import json
 
-# Core libraries
+# libraries
 try:
     import numpy as np
     import matplotlib.pyplot as plt
@@ -21,7 +21,7 @@ except ImportError as e:
     print("Some features may not be available. Install missing packages.")
     IMPORTS_AVAILABLE = False
 
-# OpenCV (optional)
+# OpenCV
 try:
     import cv2
     CV2_AVAILABLE = True
@@ -285,7 +285,7 @@ class ModelEvaluator:
         correct_predictions = (y_true == y_pred)
         
         # Overall confidence stats
-        print(f"Average Confidence: {np.mean(max_confidences):.3f}")
+        print(f"Average Confidence: {n p.mean(max_confidences):.3f}")
         print(f"Confidence (Correct): {np.mean(max_confidences[correct_predictions]):.3f}")
         print(f"Confidence (Incorrect): {np.mean(max_confidences[~correct_predictions]):.3f}")
         
