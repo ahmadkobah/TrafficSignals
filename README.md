@@ -252,9 +252,8 @@ TrafficSignals/
 |   |-- traffic_classifier_svm.pkl      Trained SVM (about 4.8 MB)
 |   `-- traffic_classifier_labels.json  KNN/SVM class order
 |-- results/                    Training history plots (PNG)
-|-- ColabSectionfiles/
-|   `-- TrafficSignals5.ipynb   Early Colab prototype
-`-- __pycache__/                Compiled Python files (committed by mistake)
+`-- ColabSectionfiles/
+    `-- TrafficSignals5.ipynb   Early Colab prototype
 ```
 
 ---
@@ -396,19 +395,16 @@ No accuracy for the committed models in `models/` is recorded in the repository.
    the saved label files.
 3. **Training plots are not generated** by the current code, although `results/` holds plots
    from earlier versions.
-4. **`__pycache__/` is committed.** It also contains compiled files for modules that no longer
-   exist in the source (`hybrid_classifier`, `knn_classifier`, `image_processor`, `utils`).
-   It should be removed and added to a `.gitignore` (there is none yet).
-5. **The GUI updates widgets from a background thread.** Tkinter is not thread-safe, so the
+4. **The GUI updates widgets from a background thread.** Tkinter is not thread-safe, so the
    training log can behave unpredictably on some systems. Detailed Keras training output goes
    to the console, not to the GUI log.
-6. **Training in the GUI always overwrites** the committed models in `models/` without asking.
-7. **Pickle files run code when loaded.** Only load `.pkl` models that you trust.
-8. **Small dataset.** 60 training images per class is small; results can vary strongly
+5. **Training in the GUI always overwrites** the committed models in `models/` without asking.
+6. **Pickle files run code when loaded.** Only load `.pkl` models that you trust.
+7. **Small dataset.** 60 training images per class is small; results can vary strongly
    between runs, and there is no separate test set.
-9. **`.h5` is a legacy Keras format.** Newer Keras versions recommend the `.keras` format and may
+8. **`.h5` is a legacy Keras format.** Newer Keras versions recommend the `.keras` format and may
    show warnings.
-10. **Bare `except:` clauses** in `main.py` hide the real reason when a model cannot be loaded.
+9. **Bare `except:` clauses** in `main.py` hide the real reason when a model cannot be loaded.
 
 ---
 
