@@ -1,0 +1,3 @@
+# Secrets, dependencies and generated files
+__pycache__/
+*.pyc
